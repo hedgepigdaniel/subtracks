@@ -18,6 +18,7 @@ import '../app_router.dart';
 import '../buttons.dart';
 import '../images.dart';
 import '../items.dart';
+import 'bottom_nav_page.dart';
 
 part 'browse_page.g.dart';
 
@@ -79,45 +80,47 @@ class BrowsePage extends HookConsumerWidget {
         )))
         .valueOrNull;
 
-    return Scaffold(
-      floatingActionButton: RadioPlayFab(
-        onPressed: () {
-          ref.read(audioControlProvider).playRadio(
-                context: QueueContextType.library,
-                getSongs: (query) => ref
-                    .read(databaseProvider)
-                    .songsList(ref.read(sourceIdProvider), query)
-                    .get(),
-              );
-        },
-      ),
-      body: CustomScrollView(
-        slivers: [
-          const SliverSafeArea(
-            sliver: SliverPadding(padding: EdgeInsets.only(top: 8)),
-          ),
-          _GenreCategory(
-            title: 'Genres',
-            items: genres?.toList() ?? [],
-          ),
-          _AlbumCategory(
-            title: l.resourcesSortByFrequentlyPlayed,
-            items: frequent ?? [],
-          ),
-          _AlbumCategory(
-            title: l.resourcesSortByRecentlyPlayed,
-            items: recent ?? [],
-          ),
-          _AlbumCategory(
-            title: l.resourcesFilterStarred,
-            items: starred ?? [],
-          ),
-          _AlbumCategory(
-            title: l.resourcesSortByRandom,
-            items: random ?? [],
-          ),
-          const SliverToBoxAdapter(child: FabPadding()),
-        ],
+    return BottomNavTabsPage(
+      child: Scaffold(
+        floatingActionButton: RadioPlayFab(
+          onPressed: () {
+            ref.read(audioControlProvider).playRadio(
+                  context: QueueContextType.library,
+                  getSongs: (query) => ref
+                      .read(databaseProvider)
+                      .songsList(ref.read(sourceIdProvider), query)
+                      .get(),
+                );
+          },
+        ),
+        body: CustomScrollView(
+          slivers: [
+            const SliverSafeArea(
+              sliver: SliverPadding(padding: EdgeInsets.only(top: 8)),
+            ),
+            _GenreCategory(
+              title: 'Genres',
+              items: genres?.toList() ?? [],
+            ),
+            _AlbumCategory(
+              title: l.resourcesSortByFrequentlyPlayed,
+              items: frequent ?? [],
+            ),
+            _AlbumCategory(
+              title: l.resourcesSortByRecentlyPlayed,
+              items: recent ?? [],
+            ),
+            _AlbumCategory(
+              title: l.resourcesFilterStarred,
+              items: starred ?? [],
+            ),
+            _AlbumCategory(
+              title: l.resourcesSortByRandom,
+              items: random ?? [],
+            ),
+            const SliverToBoxAdapter(child: FabPadding()),
+          ],
+        ),
       ),
     );
   }
@@ -171,7 +174,7 @@ class _GenreItem extends HookConsumerWidget {
 
     return ImageCard(
       onTap: () {
-        context.navigateTo(GenreSongsRoute(genre: genre));
+        context.pushRoute(GenreSongsRoute(genre: genre));
       },
       child: Stack(
         alignment: AlignmentDirectional.center,
@@ -222,7 +225,7 @@ class _AlbumCategory extends HookConsumerWidget {
           .map(
             (album) => AlbumCard(
               album: album,
-              onTap: () => context.navigateTo(
+              onTap: () => context.pushRoute(
                 AlbumSongsRoute(
                   id: album.id,
                 ),

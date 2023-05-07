@@ -12,6 +12,7 @@ import '../../state/init.dart';
 import '../../state/settings.dart';
 import '../app_router.dart';
 import '../dialogs.dart';
+import 'bottom_nav_page.dart';
 
 const kHorizontalPadding = 16.0;
 
@@ -25,38 +26,40 @@ class SettingsPage extends HookConsumerWidget {
     //   (value) => value.downloads,
     // ));
 
-    return Scaffold(
-      body: ListView(
-        children: [
-          const SizedBox(height: 96),
-          _SectionHeader(l.settingsServersName),
-          const _Sources(),
-          _SectionHeader(l.settingsNetworkName),
-          const _Network(),
-          _SectionHeader(l.settingsAboutName),
-          _About(),
-          // const _SectionHeader('Downloads'),
-          // _Section(
-          //   children: downloads
-          //       .map(
-          //         (e) => ListTile(
-          //           isThreeLine: true,
-          //           title: Text(e.filename ?? e.url),
-          //           subtitle: Column(
-          //             mainAxisAlignment: MainAxisAlignment.start,
-          //             children: [
-          //               Row(children: [Text('Progress: ${e.progress}%')]),
-          //               Row(children: [Text('Status: ${e.status})')]),
-          //               Text('Status: ${e.savedDir}'),
-          //             ],
-          //           ),
-          //           trailing:
-          //               CircularProgressIndicator(value: e.progress / 100),
-          //         ),
-          //       )
-          //       .toList(),
-          // ),
-        ],
+    return BottomNavTabsPage(
+      child: Scaffold(
+        body: ListView(
+          children: [
+            const SizedBox(height: 96),
+            _SectionHeader(l.settingsServersName),
+            const _Sources(),
+            _SectionHeader(l.settingsNetworkName),
+            const _Network(),
+            _SectionHeader(l.settingsAboutName),
+            _About(),
+            // const _SectionHeader('Downloads'),
+            // _Section(
+            //   children: downloads
+            //       .map(
+            //         (e) => ListTile(
+            //           isThreeLine: true,
+            //           title: Text(e.filename ?? e.url),
+            //           subtitle: Column(
+            //             mainAxisAlignment: MainAxisAlignment.start,
+            //             children: [
+            //               Row(children: [Text('Progress: ${e.progress}%')]),
+            //               Row(children: [Text('Status: ${e.status})')]),
+            //               Text('Status: ${e.savedDir}'),
+            //             ],
+            //           ),
+            //           trailing:
+            //               CircularProgressIndicator(value: e.progress / 100),
+            //         ),
+            //       )
+            //       .toList(),
+            // ),
+          ],
+        ),
       ),
     );
   }

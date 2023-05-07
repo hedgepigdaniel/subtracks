@@ -55,9 +55,7 @@ class LastPath extends _$LastPath {
     ));
     if (!hasActiveSource) return;
 
-    state = lastBottomNav.tab == 'library'
-        ? '/library/${lastLibrary.tab}'
-        : '/${lastBottomNav.tab}';
+    state = '/artists';
   }
 }
 

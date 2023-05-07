@@ -16,6 +16,7 @@ import '../../state/music.dart';
 import '../../state/settings.dart';
 import '../app_router.dart';
 import '../items.dart';
+import 'bottom_nav_page.dart';
 import 'songs_page.dart';
 
 part 'search_page.g.dart';
@@ -61,23 +62,25 @@ class SearchPage extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final results = ref.watch(searchResultProvider).valueOrNull;
 
-    return KeyboardDismissOnTap(
-      dismissOnCapturedTaps: true,
-      child: Scaffold(
-        body: SafeArea(
-          child: CustomScrollView(
-            reverse: true,
-            slivers: [
-              const SliverToBoxAdapter(child: _SearchBar()),
-              if (results != null && results.songs.isNotEmpty)
-                _SongsSection(songs: results.songs),
-              if (results != null && results.albums.isNotEmpty)
-                _AlbumsSection(albums: results.albums),
-              if (results != null && results.artists.isNotEmpty)
-                _ArtistsSection(artists: results.artists),
-              if (results != null)
-                const SliverPadding(padding: EdgeInsets.only(top: 96))
-            ],
+    return BottomNavTabsPage(
+      child: KeyboardDismissOnTap(
+        dismissOnCapturedTaps: true,
+        child: Scaffold(
+          body: SafeArea(
+            child: CustomScrollView(
+              reverse: true,
+              slivers: [
+                const SliverToBoxAdapter(child: _SearchBar()),
+                if (results != null && results.songs.isNotEmpty)
+                  _SongsSection(songs: results.songs),
+                if (results != null && results.albums.isNotEmpty)
+                  _AlbumsSection(albums: results.albums),
+                if (results != null && results.artists.isNotEmpty)
+                  _ArtistsSection(artists: results.artists),
+                if (results != null)
+                  const SliverPadding(padding: EdgeInsets.only(top: 96))
+              ],
+            ),
           ),
         ),
       ),
@@ -218,7 +221,7 @@ class _AlbumsSection extends HookConsumerWidget {
       children: (albums ?? <Album>[]).map(
         (album) => AlbumListTile(
           album: album,
-          onTap: () => context.navigateTo(AlbumSongsRoute(id: album.id)),
+          onTap: () => context.pushRoute(AlbumSongsRoute(id: album.id)),
         ),
       ),
     );
@@ -239,7 +242,7 @@ class _ArtistsSection extends HookConsumerWidget {
       children: (artists ?? <Artist>[]).map(
         (artist) => ArtistListTile(
           artist: artist,
-          onTap: () => context.navigateTo(ArtistRoute(id: artist.id)),
+          onTap: () => context.pushRoute(ArtistRoute(id: artist.id)),
         ),
       ),
     );

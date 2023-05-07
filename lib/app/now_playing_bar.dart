@@ -24,7 +24,7 @@ class NowPlayingBar extends HookConsumerWidget {
 
     final widget = GestureDetector(
       onTap: () {
-        context.navigateTo(const NowPlayingRoute());
+        context.pushRoute(const NowPlayingRoute());
       },
       child: Material(
         elevation: 3,

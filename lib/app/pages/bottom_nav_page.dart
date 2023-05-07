@@ -41,51 +41,40 @@ class LastBottomNavStateService extends _$LastBottomNavStateService {
   }
 }
 
-class BottomNavTabsPage extends HookConsumerWidget {
-  const BottomNavTabsPage({super.key});
+class BottomNavTabsPage extends StatelessWidget {
+  final Widget child;
+
+  const BottomNavTabsPage({ super.key, required this.child });
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final observer = ref.watch(bottomTabObserverProvider);
+  Widget build(BuildContext context) {
     const navElevation = 3.0;
 
-    return AutoTabsRouter(
-      lazyLoad: false,
-      inheritNavigatorObservers: false,
-      navigatorObservers: () => [observer],
-      routes: const [
-        LibraryRouter(),
-        BrowseRouter(),
-        SearchRouter(),
-        SettingsRouter(),
-      ],
-      builder: (context, child, animation) {
-        return AnnotatedRegion<SystemUiOverlayStyle>(
-          value: SystemUiOverlayStyle.light.copyWith(
-            systemNavigationBarColor: ElevationOverlay.applySurfaceTint(
-              Theme.of(context).colorScheme.surface,
-              Theme.of(context).colorScheme.surfaceTint,
-              navElevation,
-            ),
-            statusBarColor: Colors.transparent,
-          ),
-          child: Scaffold(
-            body: Stack(
-              alignment: AlignmentDirectional.bottomStart,
-              children: [
-                FadeTransition(
-                  opacity: animation,
-                  child: child,
-                ),
-                const OfflineIndicator(),
-              ],
-            ),
-            bottomNavigationBar: const _BottomNavBar(
-              navElevation: navElevation,
-            ),
-          ),
-        );
-      },
+    return AnnotatedRegion<SystemUiOverlayStyle>(
+      value: SystemUiOverlayStyle.light.copyWith(
+        systemNavigationBarColor: ElevationOverlay.applySurfaceTint(
+          Theme.of(context).colorScheme.surface,
+          Theme.of(context).colorScheme.surfaceTint,
+          navElevation,
+        ),
+        statusBarColor: Colors.transparent,
+      ),
+      child: Scaffold(
+        body: Stack(
+          alignment: AlignmentDirectional.bottomStart,
+          children: [
+            // FadeTransition(
+            //   opacity: animation,
+            //   child: child,
+            // ),
+            child,
+            const OfflineIndicator(),
+          ],
+        ),
+        bottomNavigationBar: const _BottomNavBar(
+          navElevation: navElevation,
+        ),
+      ),
     );
   }
 }
@@ -145,6 +134,39 @@ class OfflineIndicator extends HookConsumerWidget {
   }
 }
 
+int _tabIndexFromRoute(String name) {
+  switch (name) {
+    case '/artists':
+    case '/albums':
+    case '/songs':
+    case '/playlists':
+      return 0;
+    case '/browse':
+      return 1;
+    case '/search':
+      return 2;
+    case '/settings':
+      return 3;
+    default:
+      return 3;
+  }
+}
+
+String _routeFromTabIndex(int index) {
+  switch (index) {
+    case 0:
+      return '/artists';
+    case 1:
+      return '/browse';
+    case 2:
+      return '/search';
+    case 3:
+      return '/settings';
+    default:
+      return '/';
+  }
+}
+
 class _BottomNavBar extends HookConsumerWidget {
   final double navElevation;
 
@@ -154,9 +176,8 @@ class _BottomNavBar extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final tabsRouter = AutoTabsRouter.of(context);
-
-    useListenableSelector(tabsRouter, () => tabsRouter.activeIndex);
+    final router = AutoRouter.of(context);
+    final selectedIndex = _tabIndexFromRoute(router.currentPath);
 
     return Column(
       mainAxisSize: MainAxisSize.min,
@@ -167,18 +188,10 @@ class _BottomNavBar extends HookConsumerWidget {
           elevation: navElevation,
           height: 50,
           labelBehavior: NavigationDestinationLabelBehavior.alwaysHide,
-          selectedIndex: tabsRouter.activeIndex,
+          selectedIndex: selectedIndex,
           onDestinationSelected: (index) {
-            // TODO: replace this with a proper first-time setup flow
-            final hasActiveSource = ref.read(settingsServiceProvider.select(
-              (value) => value.activeSource != null,
-            ));
-
-            if (!hasActiveSource) {
-              tabsRouter.setActiveIndex(3);
-            } else {
-              tabsRouter.setActiveIndex(index);
-            }
+            final router = AutoRouter.of(context);
+            router.pushNamed(_routeFromTabIndex(index));
           },
           destinations: [
             const NavigationDestination(

@@ -11,6 +11,7 @@ import '../../database/database.dart';
 import '../../models/query.dart';
 import '../app_router.dart';
 import '../context_menus.dart';
+import 'bottom_nav_page.dart';
 
 part 'library_page.g.dart';
 
@@ -197,28 +198,18 @@ LibraryListQuery libraryListQuery(LibraryListQueryRef ref, int index) {
   return ref.watch(libraryListsProvider.select((value) => value[index]));
 }
 
-class LibraryTabsPage extends HookConsumerWidget {
-  const LibraryTabsPage({super.key});
+class LibraryTabsPage extends StatelessWidget {
+  final Widget child;
+
+  const LibraryTabsPage({super.key, required this.child});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final observer = ref.watch(libraryTabObserverProvider);
-
-    return AutoTabsRouter.tabBar(
-      inheritNavigatorObservers: false,
-      navigatorObservers: () => [observer],
-      routes: const [
-        LibraryAlbumsRoute(),
-        LibraryArtistsRoute(),
-        LibraryPlaylistsRoute(),
-        LibrarySongsRoute(),
-      ],
-      builder: (context, child, tabController) {
-        return Scaffold(
-          body: child,
-          floatingActionButton: const _LibraryFilterFab(),
-        );
-      },
+  Widget build(BuildContext context) {
+    return BottomNavTabsPage(
+      child:  Scaffold(
+        body: child,
+        floatingActionButton: const _LibraryFilterFab(),
+      ),
     );
   }
 }
@@ -228,9 +219,7 @@ class _LibraryFilterFab extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final tabsRouter = AutoTabsRouter.of(context);
-    final activeIndex =
-        useListenableSelector(tabsRouter, () => tabsRouter.activeIndex);
+    final activeIndex = 1; // TODO
     final tabHasFilters = ref.watch(libraryListQueryProvider(activeIndex)
         .select((value) => value.query.filters.isNotEmpty));
 
@@ -260,15 +249,15 @@ class _LibraryFilterFab extends HookConsumerWidget {
     return FloatingActionButton(
       heroTag: null,
       onPressed: () async {
-        showContextMenu(
-          context: context,
-          ref: ref,
-          builder: (context) => BottomSheetMenu(
-            child: LibraryMenu(
-              tabsRouter: tabsRouter,
-            ),
-          ),
-        );
+        // showContextMenu(
+        //   context: context,
+        //   ref: ref,
+        //   builder: (context) => BottomSheetMenu(
+        //     child: LibraryMenu(
+        //       tabsRouter: tabsRouter,
+        //     ),
+        //   ),
+        // );
       },
       tooltip: 'List',
       child: Stack(
@@ -340,7 +329,7 @@ class LibraryMenu extends HookConsumerWidget {
                     ),
                   ],
                 ),
-                _FilterToggleButton(tabsRouter: tabsRouter),
+                // _FilterToggleButton(tabsRouter: tabsRouter),
               ],
             ),
           ),

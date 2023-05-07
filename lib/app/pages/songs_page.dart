@@ -24,6 +24,7 @@ import '../hooks/use_list_query_paging_controller.dart';
 import '../images.dart';
 import '../items.dart';
 import '../lists.dart';
+import 'bottom_nav_page.dart';
 
 class AlbumSongsPage extends HookConsumerWidget {
   final String id;
@@ -66,19 +67,21 @@ class AlbumSongsPage extends HookConsumerWidget {
       [id, query, getSongs],
     );
 
-    return QueueContext(
-      id: id,
-      type: QueueContextType.album,
-      child: _SongsPage(
-        query: query,
-        getSongs: getSongs,
-        fab: ShuffleFab(onPressed: () => play(shuffle: true)),
-        onSongTap: (song, index) => play(index: index),
-        background: AlbumArtGradient(key: key.value, id: id),
-        colors: colors,
-        header: _AlbumHeader(
-          album: album,
-          play: () => play(shuffle: false),
+    return BottomNavTabsPage(
+      child: QueueContext(
+        id: id,
+        type: QueueContextType.album,
+        child: _SongsPage(
+          query: query,
+          getSongs: getSongs,
+          fab: ShuffleFab(onPressed: () => play(shuffle: true)),
+          onSongTap: (song, index) => play(index: index),
+          background: AlbumArtGradient(key: key.value, id: id),
+          colors: colors,
+          header: _AlbumHeader(
+            album: album,
+            play: () => play(shuffle: false),
+          ),
         ),
       ),
     );

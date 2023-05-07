@@ -8,6 +8,8 @@ import '../app_router.dart';
 import '../hooks/use_list_query_paging_controller.dart';
 import '../items.dart';
 import '../lists.dart';
+import 'bottom_nav_page.dart';
+import 'library_page.dart';
 
 class LibraryAlbumsPage extends HookConsumerWidget {
   const LibraryAlbumsPage({super.key});
@@ -27,14 +29,16 @@ class LibraryAlbumsPage extends HookConsumerWidget {
       },
     );
 
-    return PagedGridQueryView(
-      pagingController: pagingController,
-      refreshSyncAll: true,
-      itemBuilder: (context, item, index, size) => AlbumCard(
-        album: item,
-        style:
-            size == GridSize.small ? CardStyle.imageOnly : CardStyle.withText,
-        onTap: () => context.navigateTo(AlbumSongsRoute(id: item.id)),
+    return BottomNavTabsPage(
+      child: PagedGridQueryView(
+        pagingController: pagingController,
+        refreshSyncAll: true,
+        itemBuilder: (context, item, index, size) => AlbumCard(
+          album: item,
+          style:
+              size == GridSize.small ? CardStyle.imageOnly : CardStyle.withText,
+          onTap: () => context.pushRoute(AlbumSongsRoute(id: item.id)),
+        ),
       ),
     );
   }

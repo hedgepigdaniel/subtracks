@@ -354,9 +354,8 @@ class _ViewArtist extends HookConsumerWidget {
         await router.pop();
         if (router.currentPath == '/now-playing') {
           await router.pop();
-          await router.navigate(const LibraryRouter());
         }
-        await router.navigate(ArtistRoute(id: id));
+        await router.push(ArtistRoute(id: id));
       },
     );
   }
@@ -381,9 +380,8 @@ class _ViewAlbum extends HookConsumerWidget {
         await router.pop();
         if (router.currentPath == '/now-playing') {
           await router.pop();
-          await router.navigate(const LibraryRouter());
         }
-        await router.navigate(AlbumSongsRoute(id: id));
+        await router.push(AlbumSongsRoute(id: id));
       },
     );
   }

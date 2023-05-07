@@ -8,6 +8,7 @@ import '../app_router.dart';
 import '../hooks/use_list_query_paging_controller.dart';
 import '../items.dart';
 import '../lists.dart';
+import 'library_page.dart';
 
 class LibraryPlaylistsPage extends HookConsumerWidget {
   const LibraryPlaylistsPage({super.key});
@@ -27,12 +28,14 @@ class LibraryPlaylistsPage extends HookConsumerWidget {
       },
     );
 
-    return PagedListQueryView(
-      pagingController: pagingController,
-      refreshSyncAll: true,
-      itemBuilder: (context, item, index) => PlaylistListTile(
-        playlist: item,
-        onTap: () => context.navigateTo(PlaylistSongsRoute(id: item.id)),
+    return LibraryTabsPage(
+      child: PagedListQueryView(
+        pagingController: pagingController,
+        refreshSyncAll: true,
+        itemBuilder: (context, item, index) => PlaylistListTile(
+          playlist: item,
+          onTap: () => context.pushRoute(PlaylistSongsRoute(id: item.id)),
+        ),
       ),
     );
   }

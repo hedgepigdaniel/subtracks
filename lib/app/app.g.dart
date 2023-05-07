@@ -6,7 +6,7 @@ part of 'app.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$lastPathHash() => r'25ba5df6bd984fcce011eec40a12fb74627a790a';
+String _$lastPathHash() => r'd8082586659f04ad988e6f8857d8ea415fa6b91c';
 
 /// See also [LastPath].
 @ProviderFor(LastPath)

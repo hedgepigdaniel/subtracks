@@ -24,37 +24,6 @@ part 'app_router.gr.dart';
 const kCustomTransitionBuilder = TransitionsBuilders.slideRightWithFade;
 const kCustomTransitionDuration = 160;
 
-const itemRoutes = [
-  CustomRoute(
-    path: 'album/:id',
-    page: AlbumSongsPage,
-    transitionsBuilder: kCustomTransitionBuilder,
-    durationInMilliseconds: kCustomTransitionDuration,
-    reverseDurationInMilliseconds: kCustomTransitionDuration,
-  ),
-  CustomRoute(
-    path: 'artist/:id',
-    page: ArtistPage,
-    transitionsBuilder: kCustomTransitionBuilder,
-    durationInMilliseconds: kCustomTransitionDuration,
-    reverseDurationInMilliseconds: kCustomTransitionDuration,
-  ),
-  CustomRoute(
-    path: 'playlist/:id',
-    page: PlaylistSongsPage,
-    transitionsBuilder: kCustomTransitionBuilder,
-    durationInMilliseconds: kCustomTransitionDuration,
-    reverseDurationInMilliseconds: kCustomTransitionDuration,
-  ),
-  CustomRoute(
-    path: 'genre/:genre',
-    page: GenreSongsPage,
-    transitionsBuilder: kCustomTransitionBuilder,
-    durationInMilliseconds: kCustomTransitionDuration,
-    reverseDurationInMilliseconds: kCustomTransitionDuration,
-  ),
-];
-
 class EmptyRouterPage extends AutoRouter {
   const EmptyRouterPage({Key? key})
       : super(
@@ -66,59 +35,60 @@ class EmptyRouterPage extends AutoRouter {
 @MaterialAutoRouter(
   replaceInRouteName: 'Page,Route',
   routes: <AutoRoute>[
-    AutoRoute(path: '/', name: 'RootRouter', page: EmptyRouterPage, children: [
-      AutoRoute(path: '', page: BottomNavTabsPage, children: [
-        AutoRoute(
-            path: 'library',
-            name: 'LibraryRouter',
-            page: EmptyRouterPage,
-            children: [
-              AutoRoute(path: '', page: LibraryTabsPage, children: [
-                AutoRoute(path: 'albums', page: LibraryAlbumsPage),
-                AutoRoute(path: 'artists', page: LibraryArtistsPage),
-                AutoRoute(path: 'playlists', page: LibraryPlaylistsPage),
-                AutoRoute(path: 'songs', page: LibrarySongsPage),
-              ]),
-              ...itemRoutes,
-            ]),
-        AutoRoute(
-            path: 'browse',
-            name: 'BrowseRouter',
-            page: EmptyRouterPage,
-            children: [
-              AutoRoute(path: '', page: BrowsePage),
-              ...itemRoutes,
-            ]),
-        AutoRoute(
-            path: 'search',
-            name: 'SearchRouter',
-            page: EmptyRouterPage,
-            children: [
-              AutoRoute(path: '', page: SearchPage),
-              ...itemRoutes,
-            ]),
-        AutoRoute(
-            path: 'settings',
-            name: 'SettingsRouter',
-            page: EmptyRouterPage,
-            children: [
-              AutoRoute(path: '', page: SettingsPage),
-              CustomRoute(
-                path: 'source/:id',
-                page: SourcePage,
-                transitionsBuilder: kCustomTransitionBuilder,
-                durationInMilliseconds: kCustomTransitionDuration,
-                reverseDurationInMilliseconds: kCustomTransitionDuration,
-              ),
-            ]),
-      ]),
-    ]),
+    AutoRoute(path: '/albums', page: LibraryAlbumsPage),
+    AutoRoute(path: '/artists', page: LibraryArtistsPage),
+    AutoRoute(path: '/playlists', page: LibraryPlaylistsPage),
+    AutoRoute(path: '/songs', page: LibrarySongsPage),
+    AutoRoute(
+        path: '/browse',
+        page: BrowsePage),
+    AutoRoute(
+        path: '/search',
+        page: SearchPage),
+    AutoRoute(
+        path: '/settings',
+        page: SettingsPage),
+    CustomRoute(
+        path: '/source/:id',
+        page: SourcePage,
+        transitionsBuilder: kCustomTransitionBuilder,
+        durationInMilliseconds: kCustomTransitionDuration,
+        reverseDurationInMilliseconds: kCustomTransitionDuration,
+      ),
     CustomRoute(
       path: '/now-playing',
       page: NowPlayingPage,
       transitionsBuilder: TransitionsBuilders.slideBottom,
       durationInMilliseconds: 200,
       reverseDurationInMilliseconds: 160,
+    ),
+    CustomRoute(
+      path: 'album/:id',
+      page: AlbumSongsPage,
+      transitionsBuilder: kCustomTransitionBuilder,
+      durationInMilliseconds: kCustomTransitionDuration,
+      reverseDurationInMilliseconds: kCustomTransitionDuration,
+    ),
+    CustomRoute(
+      path: 'artist/:id',
+      page: ArtistPage,
+      transitionsBuilder: kCustomTransitionBuilder,
+      durationInMilliseconds: kCustomTransitionDuration,
+      reverseDurationInMilliseconds: kCustomTransitionDuration,
+    ),
+    CustomRoute(
+      path: 'playlist/:id',
+      page: PlaylistSongsPage,
+      transitionsBuilder: kCustomTransitionBuilder,
+      durationInMilliseconds: kCustomTransitionDuration,
+      reverseDurationInMilliseconds: kCustomTransitionDuration,
+    ),
+    CustomRoute(
+      path: 'genre/:genre',
+      page: GenreSongsPage,
+      transitionsBuilder: kCustomTransitionBuilder,
+      durationInMilliseconds: kCustomTransitionDuration,
+      reverseDurationInMilliseconds: kCustomTransitionDuration,
     ),
   ],
 )

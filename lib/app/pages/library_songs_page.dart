@@ -65,15 +65,17 @@ class LibrarySongsPage extends HookConsumerWidget {
       getItems: getSongs,
     );
 
-    return PagedListQueryView(
-      pagingController: pagingController,
-      refreshSyncAll: true,
-      itemBuilder: (context, item, index) => QueueContext(
-        type: QueueContextType.song,
-        child: SongListTile(
-          song: item,
-          image: true,
-          onTap: () => play(index: index),
+    return LibraryTabsPage(
+      child: PagedListQueryView(
+        pagingController: pagingController,
+        refreshSyncAll: true,
+        itemBuilder: (context, item, index) => QueueContext(
+          type: QueueContextType.song,
+          child: SongListTile(
+            song: item,
+            image: true,
+            onTap: () => play(index: index),
+          ),
         ),
       ),
     );

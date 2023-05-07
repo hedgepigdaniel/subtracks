@@ -10,6 +10,7 @@ import '../../state/settings.dart';
 import '../app_router.dart';
 import '../images.dart';
 import '../items.dart';
+import 'bottom_nav_page.dart';
 
 class ArtistPage extends HookConsumerWidget {
   final String id;
@@ -26,58 +27,60 @@ class ArtistPage extends HookConsumerWidget {
     final artist = ref.watch(artistProvider(id));
     final albums = ref.watch(albumsByArtistIdProvider(id));
 
-    return Scaffold(
-      body: CustomScrollView(
-        slivers: [
-          SliverToBoxAdapter(
-            child: Stack(
-              alignment: Alignment.bottomCenter,
-              fit: StackFit.passthrough,
-              children: [
-                ArtistArtImage(
-                  artistId: id,
-                  thumbnail: false,
-                  height: 400,
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(12),
-                  child: _Title(text: artist.valueOrNull?.name ?? ''),
-                ),
-              ],
+    return BottomNavTabsPage(
+      child: Scaffold(
+        body: CustomScrollView(
+          slivers: [
+            SliverToBoxAdapter(
+              child: Stack(
+                alignment: Alignment.bottomCenter,
+                fit: StackFit.passthrough,
+                children: [
+                  ArtistArtImage(
+                    artistId: id,
+                    thumbnail: false,
+                    height: 400,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(12),
+                    child: _Title(text: artist.valueOrNull?.name ?? ''),
+                  ),
+                ],
+              ),
             ),
-          ),
-          albums.when(
-            data: (albums) {
-              albums = albums.sort((a, b) => (b.year ?? 0) - (a.year ?? 0));
-              return SliverPadding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 24, vertical: 24),
-                sliver: SliverAlignedGrid.count(
-                  crossAxisCount: 2,
-                  mainAxisSpacing: 12,
-                  crossAxisSpacing: 24,
-                  itemCount: albums.length,
-                  itemBuilder: (context, i) {
-                    final album = albums.elementAt(i);
-                    return AlbumCard(
-                      album: album,
-                      subtitle: AlbumSubtitle.year,
-                      onTap: () => context.navigateTo(AlbumSongsRoute(
-                        id: album.id,
-                      )),
-                    );
-                  },
-                ),
-              );
-            },
-            error: (_, __) => SliverToBoxAdapter(
-              child: Container(color: Colors.red),
+            albums.when(
+              data: (albums) {
+                albums = albums.sort((a, b) => (b.year ?? 0) - (a.year ?? 0));
+                return SliverPadding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 24, vertical: 24),
+                  sliver: SliverAlignedGrid.count(
+                    crossAxisCount: 2,
+                    mainAxisSpacing: 12,
+                    crossAxisSpacing: 24,
+                    itemCount: albums.length,
+                    itemBuilder: (context, i) {
+                      final album = albums.elementAt(i);
+                      return AlbumCard(
+                        album: album,
+                        subtitle: AlbumSubtitle.year,
+                        onTap: () => context.pushRoute(AlbumSongsRoute(
+                          id: album.id,
+                        )),
+                      );
+                    },
+                  ),
+                );
+              },
+              error: (_, __) => SliverToBoxAdapter(
+                child: Container(color: Colors.red),
+              ),
+              loading: () => const SliverToBoxAdapter(
+                child: CircularProgressIndicator(),
+              ),
             ),
-            loading: () => const SliverToBoxAdapter(
-              child: CircularProgressIndicator(),
-            ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
