@@ -36,10 +36,13 @@ class ArtistPage extends HookConsumerWidget {
                 alignment: Alignment.bottomCenter,
                 fit: StackFit.passthrough,
                 children: [
-                  ArtistArtImage(
-                    artistId: id,
-                    thumbnail: false,
-                    height: 400,
+                  Hero(
+                    tag: 'artist-image-$id',
+                    child: ArtistArtImage(
+                      artistId: id,
+                      thumbnail: false,
+                      height: 400,
+                    ),
                   ),
                   Padding(
                     padding: const EdgeInsets.all(12),

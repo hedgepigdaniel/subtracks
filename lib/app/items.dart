@@ -205,8 +205,11 @@ class ArtistListTile extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return ListTile(
-      leading: CircleClip(
-        child: ArtistArtImage(artistId: artist.id),
+      leading: Hero(
+        tag: 'artist-image-${artist.id}',
+        child: CircleClip(
+          child: ArtistArtImage(artistId: artist.id),
+        ),
       ),
       title: Text(artist.name),
       subtitle: Text(AppLocalizations.of(context).resourcesAlbumCount(

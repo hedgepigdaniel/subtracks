@@ -21,7 +21,7 @@ import 'pages/source_page.dart';
 
 part 'app_router.gr.dart';
 
-const kCustomTransitionBuilder = TransitionsBuilders.slideRightWithFade;
+const transitionDeeper = TransitionsBuilders.slideLeftWithFade;
 const kCustomTransitionDuration = 160;
 
 class EmptyRouterPage extends AutoRouter {
@@ -51,7 +51,7 @@ class EmptyRouterPage extends AutoRouter {
     CustomRoute(
         path: '/source/:id',
         page: SourcePage,
-        transitionsBuilder: kCustomTransitionBuilder,
+        transitionsBuilder: transitionDeeper,
         durationInMilliseconds: kCustomTransitionDuration,
         reverseDurationInMilliseconds: kCustomTransitionDuration,
       ),
@@ -65,28 +65,28 @@ class EmptyRouterPage extends AutoRouter {
     CustomRoute(
       path: 'album/:id',
       page: AlbumSongsPage,
-      transitionsBuilder: kCustomTransitionBuilder,
+      transitionsBuilder: transitionDeeper,
       durationInMilliseconds: kCustomTransitionDuration,
       reverseDurationInMilliseconds: kCustomTransitionDuration,
     ),
     CustomRoute(
       path: 'artist/:id',
       page: ArtistPage,
-      transitionsBuilder: kCustomTransitionBuilder,
+      transitionsBuilder: transitionDeeper,
       durationInMilliseconds: kCustomTransitionDuration,
       reverseDurationInMilliseconds: kCustomTransitionDuration,
     ),
     CustomRoute(
       path: 'playlist/:id',
       page: PlaylistSongsPage,
-      transitionsBuilder: kCustomTransitionBuilder,
+      transitionsBuilder: transitionDeeper,
       durationInMilliseconds: kCustomTransitionDuration,
       reverseDurationInMilliseconds: kCustomTransitionDuration,
     ),
     CustomRoute(
       path: 'genre/:genre',
       page: GenreSongsPage,
-      transitionsBuilder: kCustomTransitionBuilder,
+      transitionsBuilder: transitionDeeper,
       durationInMilliseconds: kCustomTransitionDuration,
       reverseDurationInMilliseconds: kCustomTransitionDuration,
     ),

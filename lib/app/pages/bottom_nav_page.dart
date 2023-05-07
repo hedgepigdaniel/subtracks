@@ -179,51 +179,54 @@ class _BottomNavBar extends HookConsumerWidget {
     final router = AutoRouter.of(context);
     final selectedIndex = _tabIndexFromRoute(router.currentPath);
 
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      mainAxisAlignment: MainAxisAlignment.end,
-      children: [
-        const NowPlayingBar(),
-        NavigationBar(
-          elevation: navElevation,
-          height: 50,
-          labelBehavior: NavigationDestinationLabelBehavior.alwaysHide,
-          selectedIndex: selectedIndex,
-          onDestinationSelected: (index) {
-            final router = AutoRouter.of(context);
-            router.pushNamed(_routeFromTabIndex(index));
-          },
-          destinations: [
-            const NavigationDestination(
-              icon: Icon(Icons.music_note),
-              label: 'Library',
-            ),
-            NavigationDestination(
-              icon: Builder(builder: (context) {
-                return SvgPicture.asset(
-                  'assets/tag_FILL0_wght400_GRAD0_opsz24.svg',
-                  colorFilter: ColorFilter.mode(
-                    IconTheme.of(context).color!.withOpacity(
-                          IconTheme.of(context).opacity ?? 1,
-                        ),
-                    BlendMode.srcIn,
-                  ),
-                  height: 28,
-                );
-              }),
-              label: 'Browse',
-            ),
-            const NavigationDestination(
-              icon: Icon(Icons.search_rounded),
-              label: 'Search',
-            ),
-            const NavigationDestination(
-              icon: Icon(Icons.settings_rounded),
-              label: 'Settings',
-            ),
-          ],
-        ),
-      ],
+    return Hero(
+      tag: 'bottom-bar',
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          const NowPlayingBar(),
+          NavigationBar(
+            elevation: navElevation,
+            height: 50,
+            labelBehavior: NavigationDestinationLabelBehavior.alwaysHide,
+            selectedIndex: selectedIndex,
+            onDestinationSelected: (index) {
+              final router = AutoRouter.of(context);
+              router.pushNamed(_routeFromTabIndex(index));
+            },
+            destinations: [
+              const NavigationDestination(
+                icon: Icon(Icons.music_note),
+                label: 'Library',
+              ),
+              NavigationDestination(
+                icon: Builder(builder: (context) {
+                  return SvgPicture.asset(
+                    'assets/tag_FILL0_wght400_GRAD0_opsz24.svg',
+                    colorFilter: ColorFilter.mode(
+                      IconTheme.of(context).color!.withOpacity(
+                            IconTheme.of(context).opacity ?? 1,
+                          ),
+                      BlendMode.srcIn,
+                    ),
+                    height: 28,
+                  );
+                }),
+                label: 'Browse',
+              ),
+              const NavigationDestination(
+                icon: Icon(Icons.search_rounded),
+                label: 'Search',
+              ),
+              const NavigationDestination(
+                icon: Icon(Icons.settings_rounded),
+                label: 'Settings',
+              ),
+            ],
+          ),
+        ],
+      ),
     );
   }
 }
